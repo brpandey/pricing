@@ -17,6 +17,8 @@ defmodule Pricing.API.DataTest do
   test "changeset with valid attributes" do
     changeset = Data.changeset(%Data{}, @valid_attrs)
     assert changeset.valid?
+    assert changeset.changes.price == "$30.25"
+    assert changeset.changes.price_cents == 3025
   end
 
 
