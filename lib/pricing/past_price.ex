@@ -61,7 +61,10 @@ defmodule Pricing.PastPrice do
     result = Repo.one(from ppr in PastPrice, 
                       where: ppr.id == ^id, preload: [:product])
     
-    case result do nil -> nil; %PastPrice{} = ppr -> ppr.product end
+    case result do
+      %PastPrice{} = ppr -> ppr.product
+      nil -> nil
+    end
 
   end
 
