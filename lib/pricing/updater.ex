@@ -32,19 +32,13 @@ defmodule Pricing.Updater do
   # If there is not an existing product with a matching external_product_id,
   # and the product is not discontinued, create a new product record for it.
 
-  defp do_process(nil, %Data{discontinued: flag} = recent) when is_boolean(flag) do 
+  # Don't create new product for discontinued product
+  defp do_process(nil, %Data{discontinued: true}), do: :ok 
+  defp do_process(nil, %Data{discontinued: false} = recent) do 
+    {:ok, p} = Product.create(%{external_product_id: recent.id, 
+                                product_name: recent.name, price: recent.price_cents})
 
-    case flag do      
-      false -> # Not discontinued
-        {:ok, p} = Product.create(%{external_product_id: recent.id, 
-                                    product_name: recent.name, price: recent.price_cents})
-      
-        # Explicitly log that there is a new product and that you are creating a new product
-        Logger.info("Creating a new product! Product details: #{inspect p}")
-      
-      true -> :ok # Since data record is discontinued don't create new product
-    end
-    
+    Logger.info("Creating a new product! Product details: #{inspect p}")    
   end
 
 
