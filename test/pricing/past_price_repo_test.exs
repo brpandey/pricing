@@ -23,7 +23,6 @@ defmodule Pricing.PastPriceRepoTest do
     # insert a product into db (this will be product id 1)
     {:ok, %Product{id: id}} = Product.create(@valid_product_attrs)
 
-
     params = Map.put(@valid_attrs, :product_id, id)
 
     {:ok, %PastPrice{}} = 

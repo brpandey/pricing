@@ -4,17 +4,17 @@ defmodule Pricing.API.EndpointTest do
   alias Pricing.{API.Endpoint, API.Data}
 
 
-  @json0a "{\"wakawaka\":\"none\"}"
-  @json0b "{\"productRecords\":[]}"
+  @json0a ~s({"wakawaka":"none"})
+  @json0b ~s({"productRecords":[]})
   @json0c "{\"productRecords\":[{\"price\":\"$30.25\",\"name\":\"NiceChair\"}"
-  @json0d "{\"productRecords\":[{\"price\":\"$30.25\",\"name\":\"NiceChair\"}]}"
+  @json0d ~s({"productRecords":[{"price":"$30.25","name":"NiceChair"}]})
 
 
-  @json1 "{\"productRecords\":[{\"price\":\"$30.25\",\"name\":\"NiceChair\",\"id\":123456,\"discontinued\":false,\"category\":\"home-furnishings\"}]}"
+  @json1 ~s({"productRecords":[{"price":"$30.25","name":"NiceChair","id":123456,"discontinued":false,"category":"home-furnishings"}]})
 
-  @json2a "{\"productRecords\":[{\"price\":\"$30.25\",\"name\":\"NiceChair\",\"id\":123456,\"discontinued\":false,\"category\":\"home-furnishings\"},{\"price\":\"$43.77\",\"name\":\"Black & White TV\",\"id\":234567,\"discontinued\":true,\"category\":\"electronics\"}]}"
+  @json2a ~s({"productRecords":[{"price":"$30.25","name":"NiceChair","id":123456,"discontinued":false,"category":"home-furnishings"},{"price":"$43.77","name":"Black & White TV","id":234567,"discontinued":true,"category":"electronics"}]})
 
-  @json2b "{\"productRecords\":[{\"price\":\"$30.25\",\"name\":\"NiceChair\",\"id\":123456,\"discontinued\":false,\"category\":\"home-furnishings\"},{\"price\":\"$43.977\",\"name\":\"Black & White TV\",\"id\":234567,\"discontinued\":true,\"category\":\"electronics\"}]}" # second record price doesn't have two digits precision
+  @json2b ~s({"productRecords":[{"price":"$30.25","name":"NiceChair","id":123456,"discontinued":false,"category":"home-furnishings"},{"price":"$43.977","name":"Black & White TV","id":234567,"discontinued":true,"category":"electronics"}]}) # second record price doesn't have two digits precision
 
 
   test "json with zero records" do
