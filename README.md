@@ -10,6 +10,9 @@ with fictitious products API
 Each unique product record correlates to a unique product_external_id
 Hence product_external_id is a unique index on the products table
 
+Secret credentials should be stored in a .env file and not checked in.  
+A sample.env file is stored in the root directory for illustrative purposes with 
+the sample secret api key.  The .env file should be sourced before running.
 
 ### Libraries 
 

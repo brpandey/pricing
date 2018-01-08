@@ -32,7 +32,7 @@ use Mix.Config
 config :pricing, 
   endpoint_url: "fictituous",
   endpoint_path: "/pricing/records.json",
-  api_key: "abc123key"
+  api_key: System.get_env("FICTITUOUS_AUTH_TOKEN")
 
 
 config :pricing, ecto_repos: [Pricing.Repo]
