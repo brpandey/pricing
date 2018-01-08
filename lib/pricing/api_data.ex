@@ -12,7 +12,7 @@ defmodule Pricing.API.Data do
   @cents_conversion 100
 
   @required_fields ~w(id name price category discontinued)a
-  @optional_fields ~w()
+  @optional_fields ~w(id_str)
 
   # We use an embedded schema since we are not persisting this 
   # but merely to validate the API endpoint data in an organized way
@@ -22,6 +22,7 @@ defmodule Pricing.API.Data do
 
   
   embedded_schema do
+    field :id_str, :string # https://developer.twitter.com/en/docs/basics/twitter-ids
     field :name, :string
     field :price, :string
     field :price_cents, :integer
