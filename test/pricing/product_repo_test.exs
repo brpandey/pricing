@@ -58,7 +58,7 @@ defmodule Pricing.ProductRepoTest do
       Product.create(@valid_attrs)
 
     %Product{external_product_id: @valid_external_product_id} =
-      Product.get_by(:external_product_id, @valid_external_product_id)
+      Product.fetch(:external_product_id, @valid_external_product_id)
   end
 
 
@@ -66,7 +66,7 @@ defmodule Pricing.ProductRepoTest do
     # we haven't inserted a producted record with the value contained
     # in the invalid_external_product_id
 
-    assert nil == Product.get_by(:external_product_id, @invalid_external_product_id)
+    assert nil == Product.fetch(:external_product_id, @invalid_external_product_id)
   end
 
 

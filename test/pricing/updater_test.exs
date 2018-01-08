@@ -32,7 +32,7 @@ defmodule Pricing.UpdaterTest do
   test "successful new product record create" do
 
     # assert that there is not an existing product with a matching external_product_id
-    assert nil == Product.get_by(:external_product_id, @ext_prod_id)
+    assert nil == Product.fetch(:external_product_id, @ext_prod_id)
 
     # assert that recent product is not discontinued
     assert false == @data.discontinued
@@ -40,7 +40,7 @@ defmodule Pricing.UpdaterTest do
     Updater.process(@data)
 
     # assert that there is a new product record
-    assert Product.get_by(:external_product_id, @ext_prod_id)
+    assert Product.fetch(:external_product_id, @ext_prod_id)
     
   end
 
@@ -48,12 +48,12 @@ defmodule Pricing.UpdaterTest do
   test "unsuccessful new product record create since data record is discontinued" do
 
     # assert that there is not an existing product with a matching external_product_id
-    assert nil == Product.get_by(:external_product_id, @ext_prod_id)
+    assert nil == Product.fetch(:external_product_id, @ext_prod_id)
 
     Updater.process(@data_discontinued)
 
     # refute that there is a new product record
-    refute Product.get_by(:external_product_id, @ext_prod_id)
+    refute Product.fetch(:external_product_id, @ext_prod_id)
     
   end
 
@@ -67,7 +67,7 @@ defmodule Pricing.UpdaterTest do
     Updater.process(@data)
 
     # assert that the product record hasn't been updated since product names mismatch
-    assert ^p = Product.get_by(:external_product_id, @ext_prod_id)
+    assert ^p = Product.fetch(:external_product_id, @ext_prod_id)
 
   end
 
@@ -81,7 +81,7 @@ defmodule Pricing.UpdaterTest do
     Updater.process(@data)
 
     # assert that the product record hasn't been updated since product names mismatch
-    assert %Product{updated_at: ^update} = Product.get_by(:external_product_id, @ext_prod_id)
+    assert %Product{updated_at: ^update} = Product.fetch(:external_product_id, @ext_prod_id)
 
   end
 
@@ -94,7 +94,7 @@ defmodule Pricing.UpdaterTest do
     Updater.process(@data)
 
     # assert that the product record hasn't been updated since the price is the same
-    assert %Product{updated_at: ^update} = p = Product.get_by(:external_product_id, @ext_prod_id)
+    assert %Product{updated_at: ^update} = p = Product.fetch(:external_product_id, @ext_prod_id)
 
     # and assert that a new past price record hasn't been created for the new product
     refute Product.price_history(p)
@@ -109,7 +109,7 @@ defmodule Pricing.UpdaterTest do
     Updater.process(@data)
 
     # assert that the price has been updated
-    assert %Product{price: @price} = p = Product.get_by(:external_product_id, @ext_prod_id)
+    assert %Product{price: @price} = p = Product.fetch(:external_product_id, @ext_prod_id)
 
     # and assert that we have a new past price record with the first price
     assert [%PastPrice{percentage_change: 150.0, price: @diff_price}] = Product.price_history(p)
@@ -124,7 +124,7 @@ defmodule Pricing.UpdaterTest do
     Updater.process(@data_discontinued)
 
     # assert that the price has been updated
-    assert %Product{price: @price} = p = Product.get_by(:external_product_id, @ext_prod_id)
+    assert %Product{price: @price} = p = Product.fetch(:external_product_id, @ext_prod_id)
 
     # and assert that we have a new past price record with the first price
     assert [%PastPrice{percentage_change: 150.0, price: @diff_price}] = Product.price_history(p)

@@ -14,9 +14,7 @@ defmodule Pricing.PastPrice do
   @percent_conversion 100
   @precision 2 # 2 precision digits
 
-  @required_atom_fields ~w(product_id price percentage_change)a
-
-  @required_fields ~w(product_id price percentage_change)
+  @required_fields ~w(product_id price percentage_change)a
   @optional_fields ~w()
 
   # Map to past price records table ensuring 
@@ -36,7 +34,7 @@ defmodule Pricing.PastPrice do
   def changeset(struct, params \\ :empty) do
     struct
     |> cast(params, @required_fields, @optional_fields)
-    |> validate_required(@required_atom_fields)
+    |> validate_required(@required_fields)
     |> assoc_constraint(:product)
   end
 

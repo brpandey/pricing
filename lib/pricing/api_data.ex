@@ -11,9 +11,7 @@ defmodule Pricing.API.Data do
 
   @cents_conversion 100
 
-  @required_atom_fields ~w(id name price category discontinued)a
-
-  @required_fields ~w(id name price category discontinued)
+  @required_fields ~w(id name price category discontinued)a
   @optional_fields ~w()
 
   # We use an embedded schema since we are not persisting this 
@@ -37,7 +35,7 @@ defmodule Pricing.API.Data do
 
     struct
     |> cast(params, @required_fields, @optional_fields)
-    |> validate_required(@required_atom_fields)
+    |> validate_required(@required_fields)
     |> validate_format(:price, ~r/^\$(\d)+\.(\d){2}$/)
     |> put_price_cents()
   end

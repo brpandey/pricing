@@ -12,8 +12,7 @@ defmodule Pricing.Product do
 
   alias Pricing.{PastPrice, Product, Repo}
 
-  @required_atom_fields ~w(external_product_id price product_name)a  
-  @required_fields ~w(external_product_id price product_name)
+  @required_fields ~w(external_product_id price product_name)a
   @optional_fields ~w()
 
   # Map to products table ensuring we can have many past price records
@@ -32,7 +31,7 @@ defmodule Pricing.Product do
   def changeset(struct, params \\ :empty) do
     struct
     |> cast(params, @required_fields, @optional_fields)
-    |> validate_required(@required_atom_fields)
+    |> validate_required(@required_fields)
     |> unique_constraint(:external_product_id)
   end
 
@@ -43,7 +42,7 @@ defmodule Pricing.Product do
   def update(%Product{} = p, %{} = params), do: Product.changeset(p, params) |> Repo.update
 
   @doc "Retrieves product record by external product id"
-  def get_by(:external_product_id, id) when is_integer(id) do
+  def fetch(:external_product_id, id) when is_integer(id) do
 
     # from is a macro that builds the Query (queries are composable)
     matching_query = from p in Product, where: p.external_product_id == ^id
