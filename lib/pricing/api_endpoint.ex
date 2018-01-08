@@ -16,7 +16,7 @@ defmodule Pricing.API.Endpoint do
   @api_key Application.get_env(:pricing, :api_key)
 
   # Since the api is fictituous we supply the mock json
-  @mock_json "{\"productRecords\":[{\"price\":\"$30.25\",\"name\":\"NiceChair\",\"id\":123456,\"discontinued\":false,\"category\":\"home-furnishings\"},{\"price\":\"$43.77\",\"name\":\"Black & White TV\",\"id\":234567,\"discontinued\":true,\"category\":\"electronics\"}]}"
+  @mock_json ~s({"productRecords": [{"price":"$30.25", "name":"NiceChair", "id":123456, "discontinued":false, "category":"home-furnishings"}, {"price":"$43.77", "name":"Black & White TV", "id":234567, "discontinued":true, "category":"electronics"}]})
 
   @doc "Issues endpoint data fetch by generating api params and issuing request"
   def fetch() do
