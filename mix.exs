@@ -1,18 +1,16 @@
 defmodule Pricing.Mixfile do
   use Mix.Project
 
-
   def project do
     [
       app: :pricing,
       version: "0.1.0",
       elixir: "~> 1.5",
-      start_permanent: Mix.env == :prod,
+      start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases()
     ]
   end
-
 
   # Run "mix help compile.app" to learn about applications.
   def application do
@@ -21,7 +19,6 @@ defmodule Pricing.Mixfile do
       mod: {Pricing, []}
     ]
   end
-
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
@@ -37,9 +34,7 @@ defmodule Pricing.Mixfile do
 
   defp aliases do
     [
-      "test": ["ecto.drop --quiet", "ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.drop --quiet", "ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
-
 end
-

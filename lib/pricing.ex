@@ -3,7 +3,6 @@ defmodule Pricing do
   # for more information on OTP Applications
   @moduledoc false
 
-
   use Application
 
   def start(_type, _args) do
@@ -21,4 +20,3 @@ defmodule Pricing do
     Supervisor.start_link(children, opts)
   end
 end
-

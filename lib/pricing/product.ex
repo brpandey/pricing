@@ -5,7 +5,6 @@ defmodule Pricing.Product do
   convenience db methods to create, update, and query data
   """
 
-
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
@@ -17,10 +16,11 @@ defmodule Pricing.Product do
 
   # Map to products table ensuring we can have many past price records
   schema "products" do
-    field :external_product_id, :integer
-    field :price, :integer # in cents
-    field :product_name, :string
-    has_many :past_price_records, PastPrice
+    field(:external_product_id, :integer)
+    # in cents
+    field(:price, :integer)
+    field(:product_name, :string)
+    has_many(:past_price_records, PastPrice)
 
     timestamps()
   end
@@ -36,16 +36,15 @@ defmodule Pricing.Product do
   end
 
   @doc "Creates product record"
-  def create(%{} = params), do: Product.changeset(%Product{}, params) |> Repo.insert
+  def create(%{} = params), do: Product.changeset(%Product{}, params) |> Repo.insert()
 
   @doc "Updates product record"
-  def update(%Product{} = p, %{} = params), do: Product.changeset(p, params) |> Repo.update
+  def update(%Product{} = p, %{} = params), do: Product.changeset(p, params) |> Repo.update()
 
   @doc "Retrieves product record by external product id"
   def fetch(:external_product_id, id) when is_integer(id) do
-
     # from is a macro that builds the Query (queries are composable)
-    matching_query = from p in Product, where: p.external_product_id == ^id
+    matching_query = from(p in Product, where: p.external_product_id == ^id)
 
     # external_product_id is a unique index in the products table so 
     # the response is binary: either we have this product record or not
@@ -55,21 +54,24 @@ defmodule Pricing.Product do
 
   @doc "Retrieves list of past price records for product"
   def price_history(%Product{external_product_id: epid}) do
-
-    matching_query = from(p in Product, where: p.external_product_id == ^epid, 
-                          preload: [:past_price_records])
+    matching_query =
+      from(
+        p in Product,
+        where: p.external_product_id == ^epid,
+        preload: [:past_price_records]
+      )
 
     result = Repo.one(matching_query)
-    
+
     case result do
-      nil -> nil
-      %Product{} = product -> 
-        case product.past_price_records do 
+      nil ->
+        nil
+
+      %Product{} = product ->
+        case product.past_price_records do
           [] -> nil
-          records when is_list(records) -> records 
+          records when is_list(records) -> records
         end
     end
   end
-
 end
-

@@ -3,6 +3,5 @@ defmodule PricingTest do
   doctest Pricing
 
   test "greets the world" do
-
   end
 end

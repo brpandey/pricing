@@ -4,12 +4,13 @@ defmodule Pricing.API.Endpoint do
   from fictitious pricing api
   """
 
-  use HTTPoison.Base # injects methods post! and get! etc..
+  # injects methods post! and get! etc..
+  use HTTPoison.Base
   use Timex
 
   alias Pricing.API.Data
   require Logger
-  
+
   # Parameters for fictitious api
   @url Application.get_env(:pricing, :endpoint_url)
   @path Application.get_env(:pricing, :endpoint_path)
@@ -20,27 +21,26 @@ defmodule Pricing.API.Endpoint do
 
   @doc "Issues endpoint data fetch by generating api params and issuing request"
   def fetch() do
-
-    end_date = Timex.now("America/Chicago") # time now
-    start_date = Timex.shift(end_date, months: -1) # one month ago
+    # time now
+    end_date = Timex.now("America/Chicago")
+    # one month ago
+    start_date = Timex.shift(end_date, months: -1)
 
     api_params = %{
-      api_key: @api_key, 
-      start_date: start_date |> Timex.format!("{YYYY}{0M}{D}"), 
+      api_key: @api_key,
+      start_date: start_date |> Timex.format!("{YYYY}{0M}{D}"),
       end_date: end_date |> Timex.format!("{YYYY}{0M}{D}")
     }
 
-    mock_get!(@path, [], [params: api_params]) |> process_response_body
-
+    mock_get!(@path, [], params: api_params) |> process_response_body
   end
 
   @doc "Mock version of httpoison base get! function"
   def mock_get!(_, _, _), do: @mock_json
 
-
   #############################################################
   # Functions HTTPoison uses for overriding default behavior
-  
+
   @doc "used by httpoison actions to construct uri"
   def process_url(url) do
     @url <> url
@@ -54,32 +54,28 @@ defmodule Pricing.API.Endpoint do
   @doc "handles api endpoint json response body"
   def process_response_body(body) do
     try do
-
       # decode json
       response = Poison.decode!(body)
 
       # process productRecords list
       Enum.map(response["productRecords"], fn record ->
-
         # applies validation and converts string fields to atoms
-        changeset = Data.changeset(%Data{}, record) # ensure data is validated
+        # ensure data is validated
+        changeset = Data.changeset(%Data{}, record)
 
         case changeset.valid? do
           # Get Endpoint Data struct with changes applied
-          true -> %Data{} = Ecto.Changeset.apply_changes(changeset)
-          false -> nil
-        end
-        
-      end)
+          true ->
+            %Data{} = Ecto.Changeset.apply_changes(changeset)
 
+          false ->
+            nil
+        end
+      end)
     rescue
       _ ->
-        Logger.error("Invalid body #{inspect body}")
+        Logger.error("Invalid body #{inspect(body)}")
         []
     end
   end
-  
-
-
 end
-

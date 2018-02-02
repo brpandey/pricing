@@ -6,16 +6,14 @@ config :pricing, Pricing.Repo,
   username: "postgres",
   password: "postgres"
 
-
-
 config :pricing, Pricing.Scheduler,
   timezone: "America/Chicago",
   jobs: [
-    {"@monthly",  {Pricing.Updater, :run, []}} # runs update monthly, same as "0 0 1 * *"
+    # runs update monthly, same as "0 0 1 * *"
+    {"@monthly", {Pricing.Updater, :run, []}}
   ]
 
 #   {"* * * * *",  {Pricing.Updater, :run, []}} # to test run iex -S mix
-
 
 # crontab format
 
@@ -27,7 +25,3 @@ config :pricing, Pricing.Scheduler,
 # | | +-------- Day of the Month  (range: 1-31)
 # | +---------- Hour              (range: 0-23)
 # +------------ Minute            (range: 0-59)
-
-
-
-

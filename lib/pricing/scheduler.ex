@@ -3,4 +3,3 @@ defmodule Pricing.Scheduler do
   # Enable Quantum cron like functionality for Elixir application pricing
   use Quantum.Scheduler, otp_app: :pricing
 end
-

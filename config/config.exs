@@ -29,21 +29,16 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 
-config :pricing, 
+config :pricing,
   endpoint_url: "fictituous",
   endpoint_path: "/pricing/records.json",
   api_key: System.get_env("FICTITUOUS_AUTH_TOKEN")
 
-
 config :pricing, ecto_repos: [Pricing.Repo]
-
 
 config :logger, :console,
   level: :info,
   format: "\n$time $metadata[$level] $levelpad$message\n",
   metadata: [:module]
 
-
-
-import_config "#{Mix.env}.exs"
-
+import_config "#{Mix.env()}.exs"
